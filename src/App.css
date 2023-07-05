@@ -4,6 +4,23 @@
   background-size: cover;
 }
 
+.start{
+  transform: scale(0);
+
+}
+.end{
+  transform:scale(1);
+  transition: all 0.5s;
+}
+
+.first{
+  opacity: 0;
+}
+.last{
+  opacity:1;
+  transition: opacity 2s;
+}
+
 .App {
   text-align: center;
 }

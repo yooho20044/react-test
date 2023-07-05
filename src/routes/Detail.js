@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import styled from "styled-components";
+import {Nav} from "react-bootstrap"
 
 
 let YellowBtn = styled.button`
@@ -21,6 +22,8 @@ function Detail(props){
     let [alert, setAlert] = useState(true);
     let [veri, setVeri] = useState(true);
     let [msg, setMsg] = useState('');
+    let [tab, setTab] = useState(0);
+    let [fade, setFade] = useState('');
 
     useEffect(() => {
       setTimeout(() => {
@@ -32,11 +35,19 @@ function Detail(props){
       isNaN(msg) ? setVeri(false) : setVeri(true);
     },[msg])
   
+    useEffect(()=>{
+      setTimeout(()=>{
+        setFade('last');
+      })
+      return(()=>{
+        setFade('');
+      })
+    }, [])
 
 
 
     return(
-      <div className="container">
+      <div className={`container first ${fade}`}>
         {
           alert == true ?
           <div className="alert alert-warning">2초 이내 구매시 할인</div>
@@ -63,8 +74,37 @@ function Detail(props){
             <button className="btn btn-danger">주문하기</button> 
           </div>
         </div>
+        <Nav variant="tabs" defaultActiveKey="link0">
+          <Nav.Item>
+            <Nav.Link onClick={()=>{
+              setTab(0);
+            }}>Active</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={()=>{
+              setTab(1);
+            }}>Link</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={()=>{
+              setTab(2);
+            }}>Link</Nav.Link>
+          </Nav.Item>
+        </Nav>
+            <TabContent tab={tab}/>
       </div> 
     )
   }
+
+function TabContent({tab}){
+  let [fade, setFade] = useState('')
+  useEffect(()=>{
+    setTimeout(()=>{setFade('end');}, 100)
+    return () => {
+      setFade('');
+    }
+  }, [tab])
+  return (<div className={`start ${fade}`}>{[<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][tab]}</div>)
+}
 
 export default Detail
